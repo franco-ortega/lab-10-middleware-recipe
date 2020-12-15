@@ -9,8 +9,12 @@ describe('recipe-lab routes', () => {
     return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
   });
 
-  it('creates a recipe', () => {
-    return request(app)
+  afterAll(() => {
+    return pool.end;
+  });
+
+  it('creates a recipe', async() => {
+    return await request(app)
       .post('/api/v1/recipes')
       .send({
         name: 'cookies',
@@ -40,15 +44,27 @@ describe('recipe-lab routes', () => {
       { name: 'cookies', directions: [] },
       { name: 'cake', directions: [] },
       { name: 'pie', directions: [] }
-    ].map(recipe => Recipe.insert(recipe)));
+    ].map((recipe => Recipe.insert(recipe))));
 
-    return request(app)
+    return await request(app)
       .get('/api/v1/recipes')
       .then(res => {
         recipes.forEach(recipe => {
           expect(res.body).toContainEqual(recipe);
         });
       });
+  });
+
+  it('gets one recipe by id', async() => {
+    const recipe = await Recipe.insert(
+      { name: 'cookies', directions: [] },
+    );
+
+    const response = await request(app)
+      .get(`/api/v1/recipes/${recipe.id}`);
+
+    expect(response.body).toEqual(recipe);
+      
   });
 
   it('updates a recipe by id', async() => {
@@ -62,7 +78,7 @@ describe('recipe-lab routes', () => {
       ],
     });
 
-    return request(app)
+    return await request(app)
       .put(`/api/v1/recipes/${recipe.id}`)
       .send({
         name: 'good cookies',
