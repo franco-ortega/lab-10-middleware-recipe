@@ -125,4 +125,36 @@ describe('recipe-lab routes', () => {
       });
   });
 
+  it('delete a log via DELETE', async() => {
+    const recipe = await Recipe.insert(
+      {
+        name: 'cookies',
+        directions: [
+          'preheat oven to 375',
+          'mix ingredients',
+          'put dough on cookie sheet',
+          'bake for 10 minutes'
+        ]
+      }
+    );
+  
+    const log = await Log.insert(
+      { dateOfEvent: 'Jan 2, 2020', notes: 'Lovely snow.', rating: 82, recipeId: recipe.id }
+    );
+
+    const response = await request(app)
+      .delete(`/api/v1/recipes/${log.id}`);
+
+    expect(response.body).toEqual({
+      ...log,
+      dateOfEvent: 'Jan 2, 2020',
+      notes: 'Lovely snow.',
+      rating: 82,
+      recipeId: recipe.id
+    });
+
+
+
+  });
+
 });
