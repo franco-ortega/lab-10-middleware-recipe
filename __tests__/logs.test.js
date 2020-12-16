@@ -38,7 +38,7 @@ describe('recipe-lab routes', () => {
           id: expect.any(String),
           dateOfEvent: 'Sept 26, 2020',
           notes: 'Sunny day.',
-          rating: 96,
+          rating: '96',
           recipeId: recipe.id
         });
       });
