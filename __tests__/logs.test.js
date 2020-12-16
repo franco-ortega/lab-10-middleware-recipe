@@ -74,7 +74,7 @@ describe('recipe-lab routes', () => {
       });
   });
 
-  it('GET one recipe by id', async() => {
+  it('GET one log by id', async() => {
     const recipe = await Recipe.insert(
       {
         name: 'cookies',
@@ -95,6 +95,34 @@ describe('recipe-lab routes', () => {
       .get(`/api/v1/logs/${log.id}`);
 
     expect(response.body).toEqual(log);
+  });
+
+  it('updates a log by id', async() => {
+    const recipe = await Recipe.insert(
+      {
+        name: 'cookies',
+        directions: [
+          'preheat oven to 375',
+          'mix ingredients',
+          'put dough on cookie sheet',
+          'bake for 10 minutes'
+        ]
+      }
+    );
+
+    const log = await Log.insert(
+      { dateOfEvent: 'Jan 2, 2020', notes: 'Lovely snow.', rating: 82, recipeId: recipe.id }
+    );
+    
+    return await request(app)
+      .put(`/api/v1/logs/${log.id}`)
+      .send({ dateOfEvent: 'Dec 2, 2020', notes: 'Lovely snow.', rating: 82, recipeId: recipe.id })
+      .then(res => {
+        expect(res.body).toEqual({
+          id: expect.any(String),
+          dateOfEvent: 'Dec 2, 2020', notes: 'Wet snow.', rating: 82, recipeId: recipe.id
+        });
+      });
   });
 
 });
