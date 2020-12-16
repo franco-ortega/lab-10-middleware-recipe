@@ -72,9 +72,29 @@ describe('recipe-lab routes', () => {
           expect(res.body).toContainEqual(log);
         });
       });
+  });
 
+  it('GET one recipe by id', async() => {
+    const recipe = await Recipe.insert(
+      {
+        name: 'cookies',
+        directions: [
+          'preheat oven to 375',
+          'mix ingredients',
+          'put dough on cookie sheet',
+          'bake for 10 minutes'
+        ]
+      }
+    );
 
+    const log = await Log.insert(
+      { dateOfEvent: 'March 9, 2020', notes: 'Wind and rain.', rating: 47, recipeId: recipe.id }
+    );
 
+    const response = await request(app)
+      .get(`/api/v1/logs/${log.id}`);
+
+    expect(response.body).toEqual(log);
   });
 
 });
