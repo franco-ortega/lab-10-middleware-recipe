@@ -69,7 +69,7 @@ describe('recipe-lab routes', () => {
       .get('/api/v1/logs')
       .then(res => {
         logs.forEach(log => {
-          expect(res.body).toEqual(log);
+          expect(res.body).toContainEqual(log);
         });
       });
 
