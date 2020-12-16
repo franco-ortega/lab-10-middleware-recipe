@@ -143,13 +143,13 @@ describe('recipe-lab routes', () => {
     );
 
     const response = await request(app)
-      .delete(`/api/v1/recipes/${log.id}`);
+      .delete(`/api/v1/logs/${log.id}`);
 
     expect(response.body).toEqual({
       ...log,
       dateOfEvent: 'Jan 2, 2020',
       notes: 'Lovely snow.',
-      rating: 82,
+      rating: '82',
       recipeId: recipe.id
     });
 
