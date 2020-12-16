@@ -120,7 +120,7 @@ describe('recipe-lab routes', () => {
       .then(res => {
         expect(res.body).toEqual({
           id: expect.any(String),
-          dateOfEvent: 'Dec 2, 2020', notes: 'Wet snow.', rating: 82, recipeId: recipe.id
+          dateOfEvent: 'Dec 2, 2020', notes: 'Lovely snow.', rating: '82', recipeId: recipe.id
         });
       });
   });
