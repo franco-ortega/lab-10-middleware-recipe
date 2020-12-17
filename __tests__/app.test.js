@@ -24,6 +24,11 @@ describe('recipe-lab routes', () => {
           'mix ingredients',
           'put dough on cookie sheet',
           'bake for 10 minutes'
+        ],
+        ingredients: [
+          { amount: 'joy',
+            measurement: 'rainbows',
+            name: 'whiskey' }
         ]
       })
       .then(res => {
@@ -35,6 +40,11 @@ describe('recipe-lab routes', () => {
             'mix ingredients',
             'put dough on cookie sheet',
             'bake for 10 minutes'
+          ],
+          ingredients: [
+            { amount: 'joy',
+              measurement: 'rainbows',
+              name: 'whiskey' }
           ]
         });
       });
