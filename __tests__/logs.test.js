@@ -60,9 +60,24 @@ describe('recipe-lab routes', () => {
     );
 
     const logs = await Promise.all([
-      { dateOfEvent: 'Sept 26, 2020', notes: 'Sunny day.', rating: 96, recipeId: recipe.id },
-      { dateOfEvent: 'March 9, 2020', notes: 'Wind and rain.', rating: 47, recipeId: recipe.id },
-      { dateOfEvent: 'Jan 2, 2020', notes: 'Lovely snow.', rating: 82, recipeId: recipe.id }
+      {
+        dateOfEvent: 'Sept 26, 2020',
+        notes: 'Sunny day.',
+        rating: 96,
+        recipeId: recipe.id
+      },
+      {
+        dateOfEvent: 'March 9, 2020',
+        notes: 'Wind and rain.',
+        rating: 47,
+        recipeId: recipe.id
+      },
+      {
+        dateOfEvent: 'Jan 2, 2020',
+        notes: 'Lovely snow.',
+        rating: 82,
+        recipeId: recipe.id
+      }
     ].map(log => Log.insert(log)));
 
     return await request(app)
@@ -87,9 +102,12 @@ describe('recipe-lab routes', () => {
       }
     );
 
-    const log = await Log.insert(
-      { dateOfEvent: 'March 9, 2020', notes: 'Wind and rain.', rating: 47, recipeId: recipe.id }
-    );
+    const log = await Log.insert({
+      dateOfEvent: 'March 9, 2020',
+      notes: 'Wind and rain.',
+      rating: 47,
+      recipeId: recipe.id
+    });
 
     const response = await request(app)
       .get(`/api/v1/logs/${log.id}`);
@@ -110,17 +128,28 @@ describe('recipe-lab routes', () => {
       }
     );
 
-    const log = await Log.insert(
-      { dateOfEvent: 'Jan 2, 2020', notes: 'Lovely snow.', rating: 82, recipeId: recipe.id }
-    );
+    const log = await Log.insert({
+      dateOfEvent: 'Jan 2, 2020',
+      notes: 'Lovely snow.',
+      rating: 82,
+      recipeId: recipe.id 
+    });
     
     return await request(app)
       .put(`/api/v1/logs/${log.id}`)
-      .send({ dateOfEvent: 'Dec 2, 2020', notes: 'Lovely snow.', rating: 82, recipeId: recipe.id })
+      .send({
+        dateOfEvent: 'Dec 2, 2020',
+        notes: 'Lovely snow.',
+        rating: 82, 
+        recipeId: recipe.id
+      })
       .then(res => {
         expect(res.body).toEqual({
           id: expect.any(String),
-          dateOfEvent: 'Dec 2, 2020', notes: 'Lovely snow.', rating: '82', recipeId: recipe.id
+          dateOfEvent: 'Dec 2, 2020',
+          notes: 'Lovely snow.',
+          rating: '82',
+          recipeId: recipe.id
         });
       });
   });
@@ -138,9 +167,12 @@ describe('recipe-lab routes', () => {
       }
     );
   
-    const log = await Log.insert(
-      { dateOfEvent: 'Jan 2, 2020', notes: 'Lovely snow.', rating: 82, recipeId: recipe.id }
-    );
+    const log = await Log.insert({
+      dateOfEvent: 'Jan 2, 2020',
+      notes: 'Lovely snow.',
+      rating: 82,
+      recipeId: recipe.id
+    });
 
     const response = await request(app)
       .delete(`/api/v1/logs/${log.id}`);
@@ -152,9 +184,6 @@ describe('recipe-lab routes', () => {
       rating: '82',
       recipeId: recipe.id
     });
-
-
-
   });
 
 });
